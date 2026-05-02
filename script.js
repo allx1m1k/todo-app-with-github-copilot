@@ -2,9 +2,32 @@
 const todoInput = document.getElementById('todoInput');
 const addBtn = document.getElementById('addBtn');
 const todoList = document.getElementById('todoList');
+const themeToggle = document.getElementById('themeToggle');
 
-// Load todos from localStorage on page load
-document.addEventListener('DOMContentLoaded', loadTodos);
+// Load theme from localStorage on page load
+document.addEventListener('DOMContentLoaded', () => {
+    loadTheme();
+    loadTodos();
+});
+
+// Theme toggle
+themeToggle.addEventListener('click', toggleTheme);
+
+function toggleTheme() {
+    const isDarkMode = document.body.classList.toggle('dark-mode');
+    localStorage.setItem('darkMode', isDarkMode);
+    themeToggle.textContent = isDarkMode ? '☀️' : '🌙';
+}
+
+function loadTheme() {
+    const isDarkMode = localStorage.getItem('darkMode') === 'true';
+    if (isDarkMode) {
+        document.body.classList.add('dark-mode');
+        themeToggle.textContent = '☀️';
+    } else {
+        themeToggle.textContent = '🌙';
+    }
+}
 
 // Add todo on button click
 addBtn.addEventListener('click', addTodo);
@@ -48,9 +71,9 @@ function renderTodo(todo) {
     const li = document.createElement('li');
     li.className = 'todo-item';
     li.innerHTML = `
-        <input type="checkbox" class="todo-checkbox" ${todo.completed ? 'checked' : ''} onclick="toggleTodo(${todo.id})">
+        <input type="checkbox" class="todo-checkbox" ${todo.completed ? 'checked' : ''} onclick="toggleTodo(${todo.id})" title="Mark as ${todo.completed ? 'incomplete' : 'complete'}">
         <span class="todo-text ${todo.completed ? 'completed' : ''}">${escapeHtml(todo.text)}</span>
-        <button class="delete-btn" onclick="deleteTodo(${todo.id})">Delete</button>
+        <button class="delete-btn" onclick="deleteTodo(${todo.id})" title="Delete this todo">Delete</button>
     `;
     todoList.appendChild(li);
 }
