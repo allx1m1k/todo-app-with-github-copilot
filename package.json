@@ -1,0 +1,13 @@
+{
+  "name": "todo-app-with-github-copilot",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "python3 -m http.server 8000",
+    "test:e2e": "npx playwright test",
+    "test:e2e:headed": "npx playwright test --headed"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.45.0"
+  }
+}
